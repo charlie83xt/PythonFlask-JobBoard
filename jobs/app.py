@@ -20,13 +20,14 @@ def execute_sql(sql, values=(), commit=False, single=False):
         results = connection.commit()
     else:
         results = cursor.fetchone() if single else cursor.fetchall()
+
     cursor.close()
     return results
 
 @app.teardown_appcontext
 def close_connection(exception):
     connection = getattr(g, '_connection', None)
-    if connection != None:
+    if connection is not None:
         connection.close()
 
     
